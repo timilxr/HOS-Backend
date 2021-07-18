@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+// import passport from 'passport';
+// import usePassport from './config/passport';
 
 
 dotenv.config();
@@ -29,6 +31,8 @@ mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedT
 import UserRouter from './routes/users.js';
 import PrescriptionRouter from './routes/prescription.js';
 
+// app.use(passport.initialize());
+// usePassport();
 
 app.listen(PORT, ()=>console.log(`Server running on port: ${PORT}`));
 
