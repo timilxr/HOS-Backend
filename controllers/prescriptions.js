@@ -1,10 +1,10 @@
 import Prescription from '../models/prescription.model.js';
-// import data from '../prescriptionData.js';
+// import { prescriptionsData } from '../data.js';
 
 
 export const getPrescriptions = async (req, res) => {
     try{
-        // prescription.insertMany(data);
+        // Prescription.insertMany(prescriptionsData);
         const prescriptions = await Prescription.find();
         console.log(prescriptions);
         res.status(200).json(prescriptions);
