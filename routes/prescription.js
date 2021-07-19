@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.route('/').get(getPrescriptions).post(createPrescription);
 
-router.route('/:id').get(getPrescriptionById).post(updatePrescription).put(deletePrescription);
+router.route('/:id').get(getPrescriptionById).put(updatePrescription).delete(deletePrescription);
 
 
 export default router;

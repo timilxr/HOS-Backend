@@ -32,7 +32,7 @@ import PrescriptionRouter from './routes/prescription.js';
 
 app.listen(PORT, ()=>console.log(`Server running on port: ${PORT}`));
 
-app.use('/products', PrescriptionRouter)
+app.use('/prescriptions', PrescriptionRouter)
 app.use('/users', UserRouter)
 // app.use('/orders', OrderRouter)
 
