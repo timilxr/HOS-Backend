@@ -83,7 +83,7 @@ export const verify = (req, res) => {
          if(user){
             // console.log('me1');
             // console.log(user);
-            return res.status(200).json({info: true, user: user});
+            return res.status(200).json({info: true, user: user[0]});
         }
         // console.log('me2');
         return res.status(200).json({info: false, message: 'no user'});
