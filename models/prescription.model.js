@@ -9,8 +9,13 @@ const prescriptionSchema = new Schema({
     },
     patientId: {
         type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'patients'
+        // required: true,
+        ref: 'User'
+    },
+    accountantId: {
+        type: Schema.Types.ObjectId,
+        // required: true,
+        ref: 'User'
     },
     drugs: [
         {

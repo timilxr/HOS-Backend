@@ -80,6 +80,16 @@ export const prescriptionsData = [{
     // deliveredAt: {
     //   type: Date,
     // },
-  }]
+  },
+  {
+    prescription: 'Paracetamol 20mg',
+    dosage: {
+      intake: 2,
+      ccassionRate: 3,
+      occassion: 'daily',
+      spanRate: 10,
+      span: 'days',
+    },
+    available: false,}]
 
 }];

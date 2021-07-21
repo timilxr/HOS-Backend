@@ -3,10 +3,10 @@ import User from '../models/user.model.js';
 
 
 export const getUsers = async (req, res) => {
-    // await User.insertMany(usersData);
+    // User.insertMany(usersData);
     try{
         const users = await User.find();
-        console.log(users);
+        // console.log(users);
         res.status(200).json(users);
     }
     catch(error){
@@ -17,7 +17,7 @@ export const getUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
     try{
         const user = await User.findById(req.params.id);
-        console.log(user);
+        // console.log(user);
         res.status(200).json(user);
     }
     catch(error){
@@ -28,7 +28,7 @@ export const getUserById = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try{
         const user = await User.findByIdAndDelete(req.params.id);
-        console.log(user);
+        // console.log(user);
         res.status(200).json(user);
     }
     catch(error){
@@ -76,25 +76,21 @@ export const updateUser = async (req, res) => {
         res.status(400).json({message: error.message, info: 'User not found'});
     }
 }
-export const verify = async (req, res) => {
+export const verify = (req, res) => {
     const {email, password} = req.body;
-
-    try{
-        let user = await User.find({email: email, password: password});
-        // if (user.length > 0){
-        //     user = user[0];
-            
-            // try{
-
-            //     const newUser = await user.save();
-                res.status(200).json({info: user});
-            // }
-            // catch(error){
-            //     res.status(400).json({message: error.message, info: 'User not updated'})
-            // }
-        // }
-    }
-    catch(error){
+    console.log(email);
+     User.findOne({email: email, password: password}).then(user => {
+         if(user){
+            // console.log('me1');
+            // console.log(user);
+            return res.status(200).json({info: true, user: user});
+        }
+        // console.log('me2');
+        return res.status(200).json({info: false, message: 'no user'});
+     })
+    .catch((error)=>{
+        // console.log('me3');
+        console.log(error);
         res.status(400).json({message: error.message, info: false});
-    }
+    })
 }

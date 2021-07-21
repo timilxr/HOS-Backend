@@ -3,10 +3,10 @@ import Prescription from '../models/prescription.model.js';
 
 
 export const getPrescriptions = async (req, res) => {
+    // Prescription.insertMany(prescriptionsData);
     try{
-        // Prescription.insertMany(prescriptionsData);
         const prescriptions = await Prescription.find();
-        console.log(prescriptions);
+        // console.log(prescriptions);
         res.status(200).json(prescriptions);
     }
     catch(error){
@@ -28,7 +28,7 @@ export const getPrescriptionById = async (req, res) => {
 export const deletePrescription = async (req, res) => {
     try{
         const prescription = await Prescription.findByIdAndDelete(req.params.id);
-        console.log(prescription);
+        // console.log(prescription);
         res.status(200).json(prescription);
     }
     catch(error){
@@ -38,38 +38,46 @@ export const deletePrescription = async (req, res) => {
 
 export const createPrescription = async (req, res) => {
     const details = req.body;
-    // const data = getPrescriptions();
+    console.log(details);
     // details.id = data.length > 0 ? data[data.length - 1].id + 1 : 1;
 
-    const newprescription = new Prescription(details);
+    const newprescription = new Prescription({...details});
+    console.log(newprescription);
     try{
-        const prescription = await newprescription.save();
-        // console.log(prescriptions);
-        res.status(200).json(prescription);
+        await newprescription.save();
+        const prescriptions = await Prescription.find();
+        console.log('prescriptions');
+        res.status(200).json(prescriptions);
     }
     catch(error){
+        console.log(err);
         res.status(400).json({message: error.message, info: 'Error creating prescription'});
     }
 }
 
 export const updatePrescription = async (req, res) => {
-    const {doctorId, patientId, drugs, checked, totalPrice, totalPricePaid} = req.body;
+    console.log(req.body);
+    const {doctorId, patientId, accountantId, drugs, checked, totalPrice, totalPricePaid} = req.body;
     const id = req.params.id;
     try{
         const prescription = await Prescription.findById(id);
         prescription.doctorId = doctorId;
         prescription.prescription = prescription;
         prescription.patientId = patientId;
+        if (accountantId) prescription.accountantId = accountantId;
         prescription.drugs = drugs;
         prescription.checked = checked;
         prescription.totalPrice = totalPrice;
         prescription.totalPricePaid = totalPricePaid;
         // console.log(prescriptions);
         try{
-            const newprescription = await prescription.save();
+            const nprescription = await prescription.save();
+            const newprescription = await Prescription.find();
+            console.log(newprescription);
             res.status(200).json(newprescription);
         }
         catch(error){
+            console.log(error);
             res.status(400).json({message: error.message, info: 'prescription not updated'})
         }
     }
