@@ -78,12 +78,12 @@ export const updateUser = async (req, res) => {
 }
 export const verify = (req, res) => {
     const {email, password} = req.body;
-    console.log(email);
+    // console.log(email);
      User.findOne({email: email, password: password}).then(user => {
          if(user){
             // console.log('me1');
             // console.log(user);
-            return res.status(200).json({info: true, user: user[0]});
+            return res.status(200).json({info: true, user: user});
         }
         // console.log('me2');
         return res.status(200).json({info: false, message: 'no user'});
