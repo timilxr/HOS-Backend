@@ -5,7 +5,7 @@ import Prescription from '../models/prescription.model.js';
 export const getPrescriptions = async (req, res) => {
     // Prescription.insertMany(prescriptionsData);
     try{
-        const prescriptions = await Prescription.find();
+        const prescriptions = await Prescription.find({},{createdAt: 0, updatedAt: 0, __v: 0});
         // console.log(prescriptions);
         res.status(200).json(prescriptions);
     }
@@ -16,7 +16,7 @@ export const getPrescriptions = async (req, res) => {
 
 export const getPrescriptionById = async (req, res) => {
     try{
-        const prescription = await Prescription.findById(req.params.id);
+        const prescription = await Prescription.findById({_id: req.params.id},{createdAt: 0, updatedAt: 0, __v: 0});
         console.log(prescription);
         res.status(200).json(prescription);
     }

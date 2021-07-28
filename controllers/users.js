@@ -5,7 +5,7 @@ import User from '../models/user.model.js';
 export const getUsers = async (req, res) => {
     // User.insertMany(usersData);
     try{
-        const users = await User.find({},{createdAt: 0, updatedAt: 0});
+        const users = await User.find({},{createdAt: 0, updatedAt: 0, __v: 0});
         // console.log(users);
         res.status(200).json(users);
     }
@@ -16,7 +16,7 @@ export const getUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
     try{
-        const user = await User.find({_id: req.params.id},{createdAt: 0, updatedAt: 0});
+        const user = await User.find({_id: req.params.id},{createdAt: 0, updatedAt: 0, __v: 0});
         user = user[0];
         // console.log(user);
         res.status(200).json(user);
