@@ -5,7 +5,7 @@ import User from '../models/user.model.js';
 export const getUsers = async (req, res) => {
     // User.insertMany(usersData);
     try{
-        const users = await User.find();
+        const users = await User.find({},{createdAt: 0, updatedAt: 0});
         // console.log(users);
         res.status(200).json(users);
     }
@@ -16,7 +16,8 @@ export const getUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
     try{
-        const user = await User.findById(req.params.id);
+        const user = await User.find({_id: req.params.id},{createdAt: 0, updatedAt: 0});
+        user = user[0];
         // console.log(user);
         res.status(200).json(user);
     }
@@ -40,9 +41,11 @@ export const createUser = async (req, res) => {
     const details = req.body;
 
     const newUser = new User(details);
+    newUser.password = newUser.hashPassword(newUser.password)
     try{
         const user = await newUser.save();
         // console.log(Users);
+        delete user.password;
         res.status(200).json(user);
     }
     catch(error){
@@ -59,13 +62,17 @@ export const updateUser = async (req, res) => {
         user.fullName = fullName;
         user.email = email;
         user.phone = phone;
-        if (password !== '') user.password = password;
+        if (!user.matchPasswords(password)) {
+            return res.status(400).json({message: error.message, info: 'password error'})
+        }
+        user.password = password;
         user.isAdmin = isAdmin;
         user.toBeConsulted = toBeConsulted;
         user.role = role;
         // console.log(Users);
         try{
             const newUser = await user.save();
+            delete newUser.password;
             res.status(200).json(newUser);
         }
         catch(error){
@@ -79,8 +86,8 @@ export const updateUser = async (req, res) => {
 export const verify = (req, res) => {
     const {email, password} = req.body;
     // console.log(email);
-     User.findOne({email: email, password: password}).then(user => {
-         if(user){
+     User.findOne({email: email}).then(user => {
+         if(user.matchPasswords(password)){
             // console.log('me1');
             // console.log(user);
             return res.status(200).json({info: true, user: user});

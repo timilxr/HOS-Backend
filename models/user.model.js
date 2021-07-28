@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    fullName: {
+    full_name: {
         type: String,
         required: true,
       },
@@ -21,13 +21,14 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
+        select: false
       },
-    isAdmin: {
+    admin: {
         type: Boolean,
         required: true,
         default: false,
       },
-    toBeConsulted: {
+    to_be_consulted: {
         type: Boolean,
         required: true,
         default: false,

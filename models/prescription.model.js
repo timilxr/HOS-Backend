@@ -2,17 +2,17 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const prescriptionSchema = new Schema({
-    doctorId: {
+    doctor_id: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },
-    patientId: {
+    patient_id: {
         type: Schema.Types.ObjectId,
         // required: true,
         ref: 'User'
     },
-    accountantId: {
+    accountant_d: {
         type: Schema.Types.ObjectId,
         // required: true,
         ref: 'User'
@@ -33,20 +33,20 @@ const prescriptionSchema = new Schema({
                 required: true,
                 default: 0.0,
             },
-            isPaid: {
+            paid: {
                 type: Boolean,
                 required: true,
                 default: false,
             },
-            paidAt: {
+            paid_at: {
                 type: Date,
             },
-            paymentMethod: {
+            payment_method: {
                 type: String,
                 required: true,
                 default: 'cash',
             },
-            paymentResult: {
+            payment_result: {
                 amount: { type: Number },
                 currency: { type: String },
                 customer: {
@@ -59,18 +59,18 @@ const prescriptionSchema = new Schema({
                 tx_ref: { type: Date },
                 transaction_id: { type: Number }
             },
-            isDelivered: {
+            delivered: {
                 type: Boolean,
                 required: true,
                 default: false,
             },
-            deliveredAt: {
+            delivered_at: {
                 type: Date,
             },
         }
     ],
     checked: { type: Boolean, default: false },
-    totalPricePaid: {
+    total_price_paid: {
         type: Number,
         required: true,
         default: 0.0,
