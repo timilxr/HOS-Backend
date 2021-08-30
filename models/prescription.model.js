@@ -2,24 +2,37 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const prescriptionSchema = new Schema({
-    doctor_id: {
+    patient_id: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },
-    patient_id: {
+    doctor_id: {
         type: Schema.Types.ObjectId,
         // required: true,
         ref: 'User'
     },
-    accountant_d: {
+    last_checked_by: { type: String },
+    to_be_consulted: {
+        type: Boolean,
+        required: true,
+        default: false,
+      },
+    accountant_id: {
         type: Schema.Types.ObjectId,
         // required: true,
         ref: 'User'
     },
+    // schedule: {
+    //     type: Date,
+    //     required: true,
+    //     default: new Date()
+    //     // ref: 'User'
+    // },
     drugs: [
         {
-            prescription: { type: String, required: true },
+            description: { type: String },
+            prescription: { type: String },
             dosage: {
                 intake: Number,
                 occassionRate: Number,
@@ -69,7 +82,6 @@ const prescriptionSchema = new Schema({
             },
         }
     ],
-    checked: { type: Boolean, default: false },
     total_price_paid: {
         type: Number,
         required: true,
@@ -80,6 +92,7 @@ const prescriptionSchema = new Schema({
         required: true,
         default: 0.0,
     }
+
 }, {
     timestamps: true,
 });

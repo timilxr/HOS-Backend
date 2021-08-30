@@ -6,7 +6,7 @@ export const usersData = [
     password: 'timi',
     admin: true,
     role: 'doctor',
-    to_be_consulted: false
+    // to_be_consulted: false,
   },
   {
     full_name: 'tobi',
@@ -15,7 +15,7 @@ export const usersData = [
     password: 'tobi',
     admin: false,
     role: 'patient',
-    to_be_consulted: true
+    // to_be_consulted: false,
   },
   {
     full_name: 'tomi',
@@ -24,13 +24,21 @@ export const usersData = [
     password: 'tomi',
     admin: false,
     role: 'accountant',
-    to_be_consulted: false
+    // to_be_consulted: false,
+  },
+  { 
+    role: "nurse",
+    full_name: "Simi Titi",
+    email: "simi@g.com",
+    phone: "08031246871",
+    password: 'simi',
+    admin: false 
   }
 ];
 
 export const prescriptionsData = [{
-  doctor_id: '60f483855eb0b052d4a93453',
   patient_id: '60f483855eb0b052d4a93454',
+  // doctor_id: '60f483855eb0b052d4a93453',
   drugs: [{
     prescription: 'Paracetamol 10mg',
     dosage: {
@@ -39,47 +47,7 @@ export const prescriptionsData = [{
       occassion: 'daily',
       span_rate: 10,
       span: 'days',
-    },
-    available: false,
-    // price: {
-    //   type: Number,
-    //   required: true,
-    //   default: 0.0,
-    // },
-    // isPaid: {
-    //   type: Boolean,
-    //   required: true,
-    //   default: false,
-    // },
-    // paidAt: {
-    //   type: Date,
-    // },
-    // paymentMethod: {
-    //   type: String,
-    //   required: true,
-    //   default: 'cash',
-    // },
-    // paymentResult: {
-    //   amount: { type: Number },
-    //   currency: { type: String },
-    //   customer: {
-    //     name: { type: String },
-    //     email: { type: String },
-    //     phone_number: { type: String },
-    //   },
-    //   flw_ref: { type: String },
-    //   status: { type: String },
-    //   tx_ref: { type: Date },
-    //   transaction_id: { type: Number }
-    // },
-    // isDelivered: {
-    //   type: Boolean,
-    //   required: true,
-    //   default: false,
-    // },
-    // deliveredAt: {
-    //   type: Date,
-    // },
+    }
   },
   {
     prescription: 'Paracetamol 20mg',
@@ -90,6 +58,8 @@ export const prescriptionsData = [{
       span_rate: 10,
       span: 'days',
     },
-    available: false,}]
+    available: false,
+  }
+  ]
 
 }];

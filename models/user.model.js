@@ -28,11 +28,13 @@ const userSchema = new Schema({
         required: true,
         default: false,
       },
-    to_be_consulted: {
-        type: Boolean,
-        required: true,
-        default: false,
-      },
+    folder: {
+      // id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Prescription'
+      // },
+      // vitals: {type: String}
+    },
     role: {
         type: String,
         required: true,
@@ -42,13 +44,13 @@ const userSchema = new Schema({
     {
       timestamps: true,
     });
-    userSchema.methods.hashPassword = async password => {
-        const salt = await bcrypt.genSalt(10);
-        return await bcrypt.hashSync(password, salt);
+    userSchema.methods.hashPassword = password => {
+        const salt = bcrypt.genSaltSync(10);
+        return bcrypt.hashSync(password, salt);
     };
 
-    userSchema.methods.matchPasswords = async enteredPassword => {
-        return await bcrypt.compareSync(enteredPassword, this.password);
+    userSchema.methods.matchPasswords = enteredPassword => {
+        return bcrypt.compareSync(enteredPassword, this.password);
     };
 
     const User = mongoose.model('User', userSchema);

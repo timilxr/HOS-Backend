@@ -3,7 +3,7 @@ import User from '../models/user.model.js';
 
 
 export const getUsers = async (req, res) => {
-    // User.insertMany(usersData);
+    // User.insertMany(usersData); 
     try{
         const users = await User.find({},{createdAt: 0, updatedAt: 0, __v: 0});
         // console.log(users);
@@ -16,12 +16,13 @@ export const getUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
     try{
-        const user = await User.find({_id: req.params.id},{createdAt: 0, updatedAt: 0, __v: 0});
+        let user = await User.find({_id: req.params.id},{createdAt: 0, updatedAt: 0, __v: 0});
         user = user[0];
         // console.log(user);
         res.status(200).json(user);
     }
     catch(error){
+        console.log(error);
         res.status(400).json({message: error.message, info: 'User not found'});
     }
 }
@@ -29,7 +30,7 @@ export const getUserById = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try{
         const user = await User.findByIdAndDelete(req.params.id);
-        // console.log(user);
+        console.log(user);
         res.status(200).json(user);
     }
     catch(error){
@@ -42,40 +43,42 @@ export const createUser = async (req, res) => {
 
     const newUser = new User(details);
     newUser.password = newUser.hashPassword(newUser.password)
-    try{
-        const user = await newUser.save();
-        // console.log(Users);
+    console.log(newUser);
+        await newUser.save()
+        .then(user=>{
+            console.log(user);
         delete user.password;
         res.status(200).json(user);
-    }
-    catch(error){
-        res.status(400).json({message: error.message, info: 'Error creating User'});
-    }
+        })
+        .catch(error=>{
+            console.log(error);
+            res.status(400).json({message: error.message, info: 'Error creating User'});
+        })
 }
 
 export const updateUser = async (req, res) => {
-    const {fullName, email, phone, password, isAdmin, toBeConsulted, role} = req.body;
+    const {full_name, email, phone, admin, to_be_consulted, folder, role} = req.body;
     const id = req.params.id;
+    // console.log(req.body);
 
     try{
         const user = await User.findById(id);
-        user.fullName = fullName;
+        // console.log(user);
+        user.full_name = full_name;
         user.email = email;
         user.phone = phone;
-        if (!user.matchPasswords(password)) {
-            return res.status(400).json({message: error.message, info: 'password error'})
-        }
-        user.password = password;
-        user.isAdmin = isAdmin;
-        user.toBeConsulted = toBeConsulted;
+        user.folder = folder;
+        // user.password = password;
+        user.admin = admin;
         user.role = role;
-        // console.log(Users);
         try{
             const newUser = await user.save();
+            console.log(newUser);
             delete newUser.password;
-            res.status(200).json(newUser);
+            res.status(200).json({one: user._doc, all: newUser});
         }
         catch(error){
+            console.log(error);
             res.status(400).json({message: error.message, info: 'User not updated'})
         }
     }
@@ -84,16 +87,19 @@ export const updateUser = async (req, res) => {
     }
 }
 export const verify = (req, res) => {
-    const {email, password} = req.body;
+    const {email, password, phone} = req.body;
     // console.log(email);
-     User.findOne({email: email}).then(user => {
-         if(user.matchPasswords(password)){
-            // console.log('me1');
-            // console.log(user);
-            return res.status(200).json({info: true, user: user});
+     User.findOne({email: email, phone: phone}).then(user => {
+         if(password){
+            if(user.matchPasswords(password)){
+                // console.log('me1');
+                console.log(user);
+                return res.status(200).json({info: true, user: user});
+            }
+            return res.status(200).json({info: false, message: 'no user'});
         }
+        return res.status(200).json({info: true, user: user});
         // console.log('me2');
-        return res.status(200).json({info: false, message: 'no user'});
      })
     .catch((error)=>{
         // console.log('me3');
